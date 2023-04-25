@@ -14,10 +14,18 @@ void traverseInOrder(struct node *root) {
       traverseInOrder(root->right);
 }
 }
+struct node* Node(int item)
+{
+    struct node* temp
+        = (struct node*)malloc(sizeof(struct node));
+    temp->key = item;
+    temp->left = temp->right = NULL;
+    return temp;
+}
 // Insert a node
 struct node *insertNode(struct node *node, int key) {
     if (node == NULL){
-      node->key = key;
+      return Node(key);
     }
     if (key < node->key){
          node->left = insertNode(node->left, key);
@@ -28,7 +36,7 @@ struct node *insertNode(struct node *node, int key) {
    return node;
 }
 
-struct node * minValueNode(struct node* node){
+struct node * minValue(struct node* node){
    struct node* current = node;
    while (current && current->left != NULL)
       current = current->left;
@@ -53,7 +61,7 @@ struct node *deleteNode(struct node *root, int key) {
          free(root);
          return temp;
       }
-      struct node* temp = minValueNode(root->right);
+      struct node* temp = minValue(root->right);
       root->key = temp->key;
       root->right = deleteNode(root->right, temp->key);
    }
